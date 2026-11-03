@@ -10,3 +10,5 @@ Buchversand-App 1.3 – Testversion
 8. Der E-Mail-Versand ist NICHT eingerichtet. Aufträge werden nur in Firestore gespeichert.
 9. Vor echten Empfängeradressen die Regeln und Zugänge testen; GitHub-Pages-Dateien sind öffentlich.
 10. Firebase-Projekt bleibt bestehen, Spark-Tarif wird nicht automatisch umgestellt.
+
+Version 1.4: Lagerjournal nach Jahren, Swipe-Navigation, Mitarbeitername statt E-Mail. Die Benutzer verwenden technisch weiterhin Firebase Authentication mit automatisch erzeugter interner Login-Adresse. Vor Freigabe Firestore-Regeln und Login testen.
