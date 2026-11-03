@@ -17,5 +17,9 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.messaging();
+firebase.messaging().onBackgroundMessage(async payload=>{
+ const count=Number(payload.data?.badgeCount);
+ if(!Number.isInteger(count)||count<0)return;
+ try{if('setAppBadge' in navigator){if(count>0)await navigator.setAppBadge(count);else await navigator.clearAppBadge()}}catch{}
+});
 // Notification payloads are displayed automatically by FCM in the background.

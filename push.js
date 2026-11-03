@@ -14,7 +14,7 @@ async function runtime(){
  if(!registration)registration=await navigator.serviceWorker.register(new URL('./firebase-messaging-sw.js',import.meta.url),{scope:new URL('./',import.meta.url).pathname});
  if(!registration.active)await new Promise((resolve,reject)=>{const worker=registration.installing||registration.waiting;if(!worker)return reject(Error('Mitteilungsdienst konnte nicht gestartet werden.'));const timer=setTimeout(()=>reject(Error('Mitteilungsdienst braucht zu lange. App neu öffnen und erneut versuchen.')),15000);const check=()=>{if(worker.state==='activated'){clearTimeout(timer);resolve()}else if(worker.state==='redundant'){clearTimeout(timer);reject(Error('Mitteilungsdienst konnte nicht aktiviert werden.'))}};worker.addEventListener('statechange',check);check()});
  if(!messaging)messaging=messagingModule.getMessaging(ctx.api.getApp());
- if(!unsubscribe)unsubscribe=messagingModule.onMessage(messaging,async payload=>{const n=payload.notification||{};await registration.showNotification(n.title||'Buchversand',{body:n.body||'Ein neuer Versandauftrag ist eingegangen.',icon:new URL('./icon-192.png',import.meta.url).href,tag:payload.data?.orderId?'order-'+payload.data.orderId:'buchversand-test',data:{url:new URL('./?view=pending',import.meta.url).href}});ctx.onOrder()});
+ if(!unsubscribe)unsubscribe=messagingModule.onMessage(messaging,async payload=>{const n=payload.notification||{};if(payload.data?.badgeCount!==undefined)await updateOrderBadge(Number(payload.data.badgeCount));await registration.showNotification(n.title||'Buchversand',{body:n.body||'Ein neuer Versandauftrag ist eingegangen.',icon:new URL('./icon-192.png',import.meta.url).href,tag:payload.data?.orderId?'order-'+payload.data.orderId:'buchversand-test',data:{url:new URL('./?view=pending',import.meta.url).href}});ctx.onOrder()});
 }
 async function saveDevice(){const token=await messagingModule.getToken(messaging,{vapidKey:pushState.key,serviceWorkerRegistration:registration});if(!token)throw Error('Keine Push-Anmeldung erhalten. Bitte erneut versuchen.');const url=new URL('./',import.meta.url);await ctx.api.setDoc(ctx.api.doc(ctx.db,'pushDevices',deviceId()),{ownerUid:ctx.user.uid,token,appUrl:url.href,updatedAt:ctx.api.serverTimestamp()});pushState.enabled=true}
 export async function connectPush(context){
@@ -36,7 +36,7 @@ async function enable(){
  await runtime();await saveDevice();report('Empfang eingerichtet. Jetzt „Testmitteilung senden“ antippen; die Serverfunktion muss bereits eingerichtet sein.');
 }
 export async function disconnectPush(){
- if(!ctx)return;const id=localStorage.getItem(deviceKey);
+ await updateOrderBadge(0);if(!ctx)return;const id=localStorage.getItem(deviceKey);
  if(id)await ctx.api.deleteDoc(ctx.api.doc(ctx.db,'pushDevices',id));
  if(messaging&&messagingModule)await messagingModule.deleteToken(messaging);
  if(unsubscribe){unsubscribe();unsubscribe=null}pushState.enabled=false;report('Mitteilungen auf diesem Gerät ausgeschaltet.');
@@ -55,3 +55,5 @@ export function wirePush(){document.querySelectorAll('[data-push]').forEach(b=>b
  }
  }catch(e){report('Hinweis: '+e.message+(String(e.code||'').includes('not-found')?' Die Firebase-Serverfunktion ist noch nicht veröffentlicht.':''));alert(pushState.message)}finally{b.disabled=false}
 })}
+
+export async function updateOrderBadge(count){try{if('setAppBadge' in navigator){if(count>0)await navigator.setAppBadge(count);else await navigator.clearAppBadge()}}catch{}}

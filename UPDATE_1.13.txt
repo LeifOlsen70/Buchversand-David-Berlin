@@ -1,0 +1,10 @@
+Version 1.13 – Zahl am App-Symbol
+
+1. Alle Dateien direkt aus dem Hauptordner dieses ZIPs bei GitHub hochladen und ersetzen. Firebase_Server_Einrichtung bleibt lokal.
+2. Im bisherigen CMD-Fenster in den neuen Ordner Firebase_Server_Einrichtung wechseln. Darin: cd functions, dann npm install, dann cd ..
+3. firebase deploy --only functions:buchversand-push --project buchversand-david-berlin
+4. App am iPhone öffnen und Refresh drücken. Push-Schlüssel und Anmeldung bleiben erhalten.
+
+Die Zahl zeigt alle offenen Aufträge. Aktualisierung beim Öffnen/Aktualisieren der App und bei neuen Auftrags-Pushs. Bei null verschwindet sie. Eine Erledigung auf einem anderen Gerät wird am iPhone beim nächsten Öffnen oder neuen Auftragseingang berücksichtigt. Der Test-Push ändert die Zahl nicht.
+
+Syntax und simulierte Push-/App-Abläufe geprüft; echter iPhone-Test nach Installation erforderlich.
