@@ -1,25 +1,14 @@
-Buchversand-App 1.3 – Testversion
+Buchversand-App – Version 1.11
 
-1. Alle Dateien in das BESTEHENDE GitHub-Pages-Repository hochladen.
-2. FIRESTORE-REGELN: Den Inhalt von firestore.rules separat in Firebase Console > Firestore Database > Regeln einfügen und veröffentlichen. Die Datei auf GitHub allein aktiviert keine Regeln!
-3. Administrator: Firebase-Konto leifolsen@gmx.de mit persönlichem Passwort. Dieses Konto hat Adminrechte anhand der E-Mail (nur in diesem Firebase-Projekt).
-4. Versandzugang: gemeinsames Passwort des bereits angelegten Firebase-Kontos leif@gtigmbh.de. Kein E-Mail-Eingabefeld erforderlich.
-5. Zusätzliche Benutzer: Admin kann im Bereich Mehr neue Firebase-Accounts mit E-Mail und Passwort sowie Rolle erstellen. Benutzer erhalten bei dieser Variante also eine E-Mail + Passwort, nicht nur eine PIN. Die Benutzerkonten werden mit Firebase Auth verwaltet.
-6. Sperren entfernt Firestore-Zugriffsrechte, nicht das Firebase-Auth-Konto. Der Admin kann das Passwort eines fremden Kontos nicht direkt ändern; dafür Firebase Console nutzen.
-7. Bestandsdaten werden beim Start und beim Neuladen geladen; nach eigenen Änderungen ebenfalls. Keine Echtzeit-Synchronisierung. Bei gleichzeitigem Arbeiten kann die Anzeige bis zum nächsten Refresh veraltet sein.
-8. Der E-Mail-Versand ist NICHT eingerichtet. Aufträge werden nur in Firestore gespeichert.
-9. Vor echten Empfängeradressen die Regeln und Zugänge testen; GitHub-Pages-Dateien sind öffentlich.
-10. Firebase-Projekt bleibt bestehen, Spark-Tarif wird nicht automatisch umgestellt.
+Alle Dateien dieses ZIP in das bestehende GitHub-Repository hochladen und vorhandene Dateien ersetzen. Die Ordnerstruktur beibehalten.
 
-Version 1.4: Lagerjournal nach Jahren, Swipe-Navigation, Mitarbeitername statt E-Mail. Die Benutzer verwenden technisch weiterhin Firebase Authentication mit automatisch erzeugter interner Login-Adresse. Vor Freigabe Firestore-Regeln und Login testen.
+Änderungen:
+- E-Mail-Feld und Hinweise zum E-Mail-Versand entfernt.
+- Nach erfolgreichem Speichern erscheint eine Popup-Bestätigung. Mitarbeiter und Administratoren sehen nach dem Schließen direkt die offenen Aufträge.
+- Daten werden bei Button-Aktionen, Seitenwechseln, Wisch-Navigation und beim Zurückkehren in die App frisch vom Server abgefragt. Formularwerte bleiben bei Hintergrundabfragen erhalten.
+- Neue Liste: Buttons für „Zuerst speichern“, „Ohne Speichern“ und „Abbrechen“, danach abschließende Sicherheitsabfrage vor dem Löschen.
+- Versionsanzeige und Dateiversionen auf 1.11 aktualisiert.
 
-Version 1.5: Merkt sich den geöffneten Bereich bei Refresh im selben Browser-Tab. Bestands-Kennzahlen sind antippbar (Versendet gesamt -> Historie, Offene Aufträge -> Aufträge). Zusätzlicher Button zur Versandübersicht / Historie.
+Bestehende Firebase-Konfiguration und Regeln bleiben erhalten. Bereits veröffentlichte Regeln müssen für dieses Update nicht geändert werden. Benutzer mit der Rolle „Nur Versandaufträge“ haben weiterhin keinen Zugriff auf die Liste aller Aufträge und landen nach der Bestätigung auf der Startseite. Im Datensatz bleibt replyEmail als leere Zeichenfolge zur Kompatibilität mit den bestehenden Regeln erhalten.
 
-
-VERSION 1.10 - FIRESTORE-BERECHTIGUNGEN
-Die Firestore-Regeln in firestore.rules erlauben ausschließlich dem Administrator
-das Löschen von Aufträgen und Bewegungen für Neue Liste/Wiederherstellung.
-WICHTIG: Die Datei in GitHub hochzuladen aktiviert die Regeln NICHT.
-Die Regeln müssen zusätzlich in der Firebase-Konsole unter Firestore > Regeln
-eingefügt und mit Veröffentlichen aktiviert werden.
-Vor einer Löschung eine JSON-Sicherung tatsächlich auf dem Gerät speichern.
+Vor dem Erstellen einer leeren Liste die Sicherungsdatei tatsächlich auf dem Gerät speichern. Konten bleiben erhalten.
