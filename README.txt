@@ -14,3 +14,12 @@ Buchversand-App 1.3 – Testversion
 Version 1.4: Lagerjournal nach Jahren, Swipe-Navigation, Mitarbeitername statt E-Mail. Die Benutzer verwenden technisch weiterhin Firebase Authentication mit automatisch erzeugter interner Login-Adresse. Vor Freigabe Firestore-Regeln und Login testen.
 
 Version 1.5: Merkt sich den geöffneten Bereich bei Refresh im selben Browser-Tab. Bestands-Kennzahlen sind antippbar (Versendet gesamt -> Historie, Offene Aufträge -> Aufträge). Zusätzlicher Button zur Versandübersicht / Historie.
+
+
+VERSION 1.10 - FIRESTORE-BERECHTIGUNGEN
+Die Firestore-Regeln in firestore.rules erlauben ausschließlich dem Administrator
+das Löschen von Aufträgen und Bewegungen für Neue Liste/Wiederherstellung.
+WICHTIG: Die Datei in GitHub hochzuladen aktiviert die Regeln NICHT.
+Die Regeln müssen zusätzlich in der Firebase-Konsole unter Firestore > Regeln
+eingefügt und mit Veröffentlichen aktiviert werden.
+Vor einer Löschung eine JSON-Sicherung tatsächlich auf dem Gerät speichern.

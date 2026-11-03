@@ -1,4 +1,4 @@
-const APP_VERSION = '1.9';
+const APP_VERSION = '1.10';
 const ADMIN_EMAIL='leifolsen@gmx.de';
 const REQUEST_EMAIL='leif@gtigmbh.de';
 const loginAddress=name=>{const slug=String(name||'').trim().toLocaleLowerCase('de-DE').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'.').replace(/^\.+|\.+$/g,'');return slug?slug+'@users.buchversand.invalid':'';};
