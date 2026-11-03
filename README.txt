@@ -12,3 +12,5 @@ Buchversand-App 1.3 – Testversion
 10. Firebase-Projekt bleibt bestehen, Spark-Tarif wird nicht automatisch umgestellt.
 
 Version 1.4: Lagerjournal nach Jahren, Swipe-Navigation, Mitarbeitername statt E-Mail. Die Benutzer verwenden technisch weiterhin Firebase Authentication mit automatisch erzeugter interner Login-Adresse. Vor Freigabe Firestore-Regeln und Login testen.
+
+Version 1.5: Merkt sich den geöffneten Bereich bei Refresh im selben Browser-Tab. Bestands-Kennzahlen sind antippbar (Versendet gesamt -> Historie, Offene Aufträge -> Aufträge). Zusätzlicher Button zur Versandübersicht / Historie.
