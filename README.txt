@@ -1,13 +1,12 @@
-BUCHVERSAND APP v1 – EINRICHTUNG
+Buchversand-App 1.3 – Testversion
 
-1. ZIP entpacken und alle Dateien (inkl. cover.png, Icons, manifest) ins GitHub-Repository hochladen. GitHub Pages unter Settings > Pages aktivieren.
-2. Firebase-Projekt erstellen. Authentication > Sign-in method > E-Mail/Passwort aktivieren. Firestore-Datenbank erstellen.
-3. Web-App im Firebase-Projekt registrieren; Werte in firebase-config.js eintragen. In Authentication > Settings > Authorized domains die GitHub-Pages-Domain ergänzen.
-4. firestore.rules in Firestore > Rules einfügen und veröffentlichen.
-5. Mitarbeiter unter Authentication > Users anlegen. Unter Firestore Collection users, Dokument-ID = UID des Mitarbeiters, Feld role = admin oder staff (String) setzen. Nur direkt in der Firebase Console freigeben. Admin-Berechtigung im Frontend ist für Bestand-Korrektur vorgesehen.
-6. Nach Login unter Bestand den Anfangsbestand als Zugang erfassen.
-7. Für automatische E-Mails ist eine zusätzliche vertrauenswürdige Serverfunktion mit E-Mail-Dienst nötig. In v1 werden Aufträge online in Firestore gespeichert, aber noch KEINE E-Mails versendet. Keinesfalls SMTP-Passwörter im Browsercode speichern.
-8. Öffentliche Formulare sind ohne Anmeldung nutzbar. Vor öffentlicher Freigabe sollten App Check / CAPTCHA, Rate Limiting und Datenschutzhinweise eingerichtet werden, damit Dritte keine Spam-Aufträge erzeugen können.
-9. Sensible Empfängeradressen nur mit berechtigten Mitarbeitern teilen; Aufbewahrung und Löschung gemäß Datenschutz festlegen.
-
-WICHTIG: Ohne Firebase-Konfiguration ist die App nur eine Layout-Demo. Die App benötigt eine Internetverbindung. Bestandsänderungen sind als Bewegungen dokumentiert, der Bestand ergibt sich aus deren Summe. Das Versand-Buchen erfolgt atomar per Firestore-Transaktion. Der Zugang zum Bestand und zu Adressen ist durch Firestore Rules geschützt.
+1. Alle Dateien in das BESTEHENDE GitHub-Pages-Repository hochladen.
+2. FIRESTORE-REGELN: Den Inhalt von firestore.rules separat in Firebase Console > Firestore Database > Regeln einfügen und veröffentlichen. Die Datei auf GitHub allein aktiviert keine Regeln!
+3. Administrator: Firebase-Konto leifolsen@gmx.de mit persönlichem Passwort. Dieses Konto hat Adminrechte anhand der E-Mail (nur in diesem Firebase-Projekt).
+4. Versandzugang: gemeinsames Passwort des bereits angelegten Firebase-Kontos leif@gtigmbh.de. Kein E-Mail-Eingabefeld erforderlich.
+5. Zusätzliche Benutzer: Admin kann im Bereich Mehr neue Firebase-Accounts mit E-Mail und Passwort sowie Rolle erstellen. Benutzer erhalten bei dieser Variante also eine E-Mail + Passwort, nicht nur eine PIN. Die Benutzerkonten werden mit Firebase Auth verwaltet.
+6. Sperren entfernt Firestore-Zugriffsrechte, nicht das Firebase-Auth-Konto. Der Admin kann das Passwort eines fremden Kontos nicht direkt ändern; dafür Firebase Console nutzen.
+7. Bestandsdaten werden beim Start und beim Neuladen geladen; nach eigenen Änderungen ebenfalls. Keine Echtzeit-Synchronisierung. Bei gleichzeitigem Arbeiten kann die Anzeige bis zum nächsten Refresh veraltet sein.
+8. Der E-Mail-Versand ist NICHT eingerichtet. Aufträge werden nur in Firestore gespeichert.
+9. Vor echten Empfängeradressen die Regeln und Zugänge testen; GitHub-Pages-Dateien sind öffentlich.
+10. Firebase-Projekt bleibt bestehen, Spark-Tarif wird nicht automatisch umgestellt.
