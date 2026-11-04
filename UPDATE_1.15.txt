@@ -1,0 +1,1 @@
+Version 1.15: Admin-only Versand/Storno, Auftragsbestätigung, Nutzer anmelden, Push-Button-Status, Abmeldekorrektur. WICHTIG: firestore.rules zusätzlich in Firebase Console veröffentlichen. Nur GitHub-Upload reicht für serverseitige Berechtigungen nicht.
