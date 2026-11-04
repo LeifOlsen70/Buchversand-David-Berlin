@@ -1,0 +1,13 @@
+Version 1.14 – auf Grundlage der hochgeladenen 1.13
+
+- Freigaben: Sperren und Wieder freischalten mit vorheriger Rolle.
+- Nutzer löschen: sichere serverseitige Firebase-Funktion; der Administrator kann keine eigenen Konten löschen.
+- Benutzeraktionen aktualisieren die Oberfläche direkt.
+- Wischen zwischen Bestand, Aufträge, Historie und Mehr verbessert.
+- Navigation zeigt Zielseite sofort, danach werden Daten geladen.
+
+WICHTIG: Die vollständige Benutzerlöschung erfordert die Bereitstellung der aktualisierten Cloud Functions im Ordner Firebase_Server_Einrichtung.
+Im Terminal dort: firebase deploy --only functions
+Die bestehende Funktion für Push-Benachrichtigungen bleibt erhalten.
+
+Die ZIP enthält die vorhandene Firebase-Konfiguration. Nur in das eigene GitHub-Repository hochladen.
