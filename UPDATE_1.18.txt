@@ -1,0 +1,1 @@
+Version 1.18: Auftragsnachrichten rechtsbuendig als Warnhinweis hervorgehoben; Abmelden nur noch in der Kopfzeile. Keine Aenderung an Firebase-Regeln erforderlich.
