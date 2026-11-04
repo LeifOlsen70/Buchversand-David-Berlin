@@ -22,14 +22,31 @@ service cloud.firestore {
    allow delete: if false;
   }
   match /orders/{id}{
-   allow create: if admin() || logged() && role() in ['admin','staff','requester'] && request.resource.data.keys().hasOnly(['buyer','recipient','address','quantity','replyEmail','notifyAdmin','status','createdAt']) && request.resource.data.status=='pending' && request.resource.data.get('notifyAdmin',false) is bool && request.resource.data.buyer is string && request.resource.data.buyer.size()>0 && request.resource.data.buyer.size()<=150 && request.resource.data.recipient is string && request.resource.data.recipient.size()>0 && request.resource.data.recipient.size()<=150 && request.resource.data.address is string && request.resource.data.address.size()>0 && request.resource.data.address.size()<=500 && request.resource.data.replyEmail is string && request.resource.data.replyEmail.size()<=200 && request.resource.data.quantity is int && request.resource.data.quantity>0 && request.resource.data.quantity<=10000 && request.resource.data.createdAt==request.time;
-   allow read: if shipper();
-   allow update: if admin() && resource.data.status=='pending' && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','shippedAt','shippedBy','cancelledAt','cancelledBy']) && ((request.resource.data.status=='shipped' && request.resource.data.shippedBy==request.auth.uid && request.resource.data.shippedAt==request.time && existsAfter(/databases/$(database)/documents/movements/$("ship_"+id)) && getAfter(/databases/$(database)/documents/movements/$("ship_"+id)).data.delta == -resource.data.quantity) || (request.resource.data.status=='cancelled' && request.resource.data.cancelledBy==request.auth.uid && request.resource.data.cancelledAt==request.time));
+   allow create: if admin() || logged() && role() in ['admin','staff','requester'] && request.resource.data.keys().hasOnly(['buyer','recipient','address','quantity','replyEmail','notifyAdmin','status','createdAt','ownerUid']) && request.resource.data.status=='pending' && request.resource.data.ownerUid==request.auth.uid && request.resource.data.get('notifyAdmin',false) is bool && request.resource.data.buyer is string && request.resource.data.buyer.size()>0 && request.resource.data.buyer.size()<=150 && request.resource.data.recipient is string && request.resource.data.recipient.size()>0 && request.resource.data.recipient.size()<=150 && request.resource.data.address is string && request.resource.data.address.size()>0 && request.resource.data.address.size()<=500 && request.resource.data.replyEmail is string && request.resource.data.replyEmail.size()<=200 && request.resource.data.quantity is int && request.resource.data.quantity>0 && request.resource.data.quantity<=10000 && request.resource.data.createdAt==request.time;
+   allow read: if shipper() || (logged() && resource.data.ownerUid==request.auth.uid && role()=='requester');
+   allow update: if admin();
    allow delete: if admin();
+  }
+  match /orderMessages/{id}{
+   allow create: if logged() && role() in ['staff','requester']
+    && request.resource.data.keys().hasOnly(['orderId','ownerUid','text','createdAt'])
+    && request.resource.data.ownerUid==request.auth.uid
+    && request.resource.data.orderId is string
+    && request.resource.data.orderId.size()>0
+    && request.resource.data.orderId.size()<=200
+    && request.resource.data.text is string
+    && request.resource.data.text.size()>0
+    && request.resource.data.text.size()<=1000
+    && request.resource.data.createdAt==request.time
+    && exists(/databases/$(database)/documents/orders/$(request.resource.data.orderId))
+    && get(/databases/$(database)/documents/orders/$(request.resource.data.orderId)).data.ownerUid==request.auth.uid
+    && get(/databases/$(database)/documents/orders/$(request.resource.data.orderId)).data.status=='pending';
+   allow read: if admin() || (logged() && role() in ['staff','requester'] && resource.data.ownerUid==request.auth.uid);
+   allow update,delete: if false;
   }
   match /movements/{id}{
    allow read: if seeStock();
-   allow create: if admin() && request.resource.data.delta is int && request.resource.data.delta!=0 && request.resource.data.actor==request.auth.uid && request.resource.data.createdAt==request.time && !id.matches('ship_.*') && request.resource.data.keys().hasOnly(['delta','reason','actor','createdAt']) || admin() && id.matches('ship_.*') && request.resource.data.keys().hasAll(['orderId','delta','actor','reason','createdAt']) && request.resource.data.actor==request.auth.uid && request.resource.data.createdAt==request.time && id=='ship_'+request.resource.data.orderId && getAfter(/databases/$(database)/documents/orders/$(request.resource.data.orderId)).data.status=='shipped' && get(/databases/$(database)/documents/orders/$(request.resource.data.orderId)).data.status=='pending' && request.resource.data.delta == -get(/databases/$(database)/documents/orders/$(request.resource.data.orderId)).data.quantity;
+   allow create: if admin();
    allow update,delete: if admin();
   }
  }

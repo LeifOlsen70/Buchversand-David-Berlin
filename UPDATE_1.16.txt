@@ -1,0 +1,1 @@
+Version 1.16: Ein einzelner Push-Schalter, Status und Test erhalten; Abmelden oben; Zurueck/Vorwaerts; Adminbereich; geloeschte Nutzer aus Freigaben entfernen. Fuer vollstaendiges Loeschen des Firebase-Auth-Kontos muss die Cloud Function deleteBuchversandUser bereitgestellt sein. Bestehende Firebase-Regeln bleiben unveraendert.
